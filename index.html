@@ -1,62 +1,79 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TEST</title>
-    <link rel ="stylesheet" href= "style.css">
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>vue test</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
 </head>
 <body>
-    <div class="container_main_wrapper">
-        <h1 class ="container_main_header">Ты сегодня покормил кота?</h1>
-        <div class="main_boxes_container">
-            <div class="main_box_wrapper">
-                <div class="main_box">
-                    <div class = "main_box_header">
-                        <h1 class ="main_box_title">Сказочное заморское яство</h1>
-                        <p class= "main_title_descr">Нямушка с фуа-гра</p>
-                        <p class ="main_title">10 порций мышь в подарок</p>
-                    </div>
-                <div class="main_box_price">
-                    <p>0.5
-                  КГ</p>
-                </div>
-                </div>
-                <h1 class="main_box_descr">Чего сидишь? Порадуй котэ, <a>купи.</a></h1>
+    <script src="https://unpkg.com/vue@3"></script>
+<div id="app">
+    <button class ="show_window" @click="modal">OPEN WINDOW</button>
+    <div v-if="modalWindow"class="modal-window">
+    <div class="modal_window_wrapper">
+        <form @submit.prevent="addToList" class="modal_window_form">
+            <h1 class ="modal_window_header">10%off</h1>
+            <h1 class ="modal_window_header_descr">your first order</h1>
+            <div class= "modal_window_line"></div>
+            <h1 class="modal_window_text">Subscrive to recieve 10% off promocode plus exclusive offers and deals</h1>
+            <h1 class= "modal_window_email">Email-adress</h1>
+            <input v-model="newEmail" type ="text" class= "modal_window_input "/>
+            <button type ="submit" class ="modal_window_btn">Subscribe</button>
+            <div class="modal_window_checkbox">
+                <input type="checkbox">
+                <span>I’m agree with privacy policy</span>
             </div>
-            <div class="main_box_wrapper">
-                <div class="main_box">
-                    <div class = "main_box_header">
-                        <h1 class ="main_box_title">Сказочное заморское яство</h1>
-                        <p class= "main_title_descr">Нямушка с рыбой</p>
-                        <p class ="main_title">40 порций две мыши в подарок</p>
-                    </div>
-                    <div class="main_box_price">
-                        <p>2
-                       КГ</p>
-                    </div>
-                    </div>
-                    <h1 class="main_box_descr">Головы щучьи с чесноком да свежайшая сёмгушка.</h1>
+        </form>
+        <div v-if="checkGreen" class="green">You have successfully subscribed to the newsletter</div>
+        <div v-if="checkRed" class="red">You have already subscribed to the newsletter</div>
+        <div class="modal_window_images">
+            <div class="modal_window_purple"></div>
+            <div class ="modal_window_img"></div>
         </div>
-        <div class="main_box_wrapper">
-            <div class="main_box">
-                <div class = "main_box_header">
-                    <h1 class ="main_box_title">Сказочное заморское яство</h1>
-                    <p class= "main_title_descr">Нямушка с курой</p>
-                    <p class ="main_title">100 порций 5 мышей в подарок заказчик доволен</p>
-                </div>
-                <div class="main_box_price">
-                    <p>5
-                    КГ</p>
-                </div>
-                </div>
-                <div class="main_box_descr">Печалька, с рыбой закончился.</div>
-            </div>
-        </div>
-        </div>
+        <div class="modal_window_close" @click = "modal">&#10006</div>
     </div>
-    </div>
-    <script defer src = "script.js"></script>
+</div>
+</div>
+
+<script>
+  const { createApp } = Vue
+
+  createApp({
+    data() {
+      return {
+        id:0,
+        newEmail:'',
+        emails:[],
+        modalWindow:false,
+        checkRed:false,
+        checkGreen:false,
+      }
+    },
+    methods:{
+        addToList() {
+      this.emails.push({ id: this.id++, text: this.newEmail })
+      this.newEmail = ''
+      this.emails.forEach(item => {
+            if(item.text == this.newEmail){
+                this.checkRed = true
+                this.checkGreen = false;
+            }else{
+                this.checkGreen = true;
+                this.checkRed = false
+            }
+        })
+    },
+    modal(){
+        this.modalWindow = !this.modalWindow
+    },
+  
+    },
+
+  }).mount('#app')
+</script>
+
+    <script src='main.js'></script>
 </body>
 </html>
